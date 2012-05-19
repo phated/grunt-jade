@@ -9,7 +9,7 @@
 module.exports = function(grunt) {
 
   var jade = require('jade')
-    , normalize = require('path').normalize;
+    , path = require('path');
 
   // Please see the grunt documentation for more information regarding task and
   // helper creation: https://github.com/cowboy/grunt/blob/master/docs/toc.md
@@ -19,9 +19,6 @@ module.exports = function(grunt) {
   // ==========================================================================
 
   grunt.registerMultiTask('jade', 'Your task description goes here.', function() {
-    // hugz to rix for this regex
-    var jadeFileRegex = /([a-zA-Z0-9\-\.\_]*)\.jade/;
-
     // Options object for jade
     var options = {
       client: typeof this.data.options.client !== 'undefined' ? this.data.options.client : true,
@@ -30,7 +27,7 @@ module.exports = function(grunt) {
     };
 
     // Reference to the dest dir
-    var dest = normalize(this.file.dest + '/')
+    var dest = path.normalize(this.file.dest + '/')
       , files = grunt.file.expandFiles(this.file.src);
 
     // Make the dest dir if it doesn't exist
@@ -38,7 +35,8 @@ module.exports = function(grunt) {
 
     // Loop through all files and write them to files
     files.forEach(function(filepath) {
-      var outputFilename = filepath.match(jadeFileRegex)[1].replace('-', '_')
+      var fileExtname = path.extname(filepath)
+        , outputFilename = path.basename(filepath, fileExtname).replace('-', '_')
         , outputFilepath
         , compiled;
       if(options.client){
@@ -78,8 +76,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerHelper('wrap-no-amd', function(compiled, filename){
-    var header = '(function(){jade.templates.' + filename + ' = '
-      , footer = '})();';
+    var header = 'jade.templates.' + filename + ' = (function(){\nreturn '
+      , footer = ';\n})();';
     return header + compiled + footer;
   });
 

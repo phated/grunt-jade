@@ -38,6 +38,13 @@ module.exports = function(grunt) {
           amd: 'jade'
         }
       },
+      no_amd: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/no_amd',
+        options: {
+          development: true
+        }
+      },
       dist: {
         src: ['templates/src/*.jade'],
         dest: 'templates/dist/',
