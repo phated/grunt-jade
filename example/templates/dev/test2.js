@@ -1,5 +1,5 @@
-define(["jade"], function(jade) {
-return function anonymous(locals, attrs, escape, rethrow) {
+define(['jade'], function(jade){
+  return function anonymous(locals, attrs, escape, rethrow) {
 var attrs = jade.attrs, escape = jade.escape, rethrow = jade.rethrow;
 var __jade = [{ lineno: 1, filename: undefined }];
 try {

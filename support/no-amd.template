@@ -1,0 +1,3 @@
+jade.templates.<%= filename %> = (function(){
+  return <%= compiledTemplate %>;
+})();

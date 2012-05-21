@@ -11,20 +11,22 @@ module.exports = function(grunt) {
   var jade = require('jade')
     , path = require('path');
 
-  // Please see the grunt documentation for more information regarding task and
-  // helper creation: https://github.com/cowboy/grunt/blob/master/docs/toc.md
-
   // ==========================================================================
   // TASKS
   // ==========================================================================
 
   grunt.registerMultiTask('jade', 'Your task description goes here.', function() {
     // Options object for jade
-    var options = {
-      client: typeof this.data.options.client !== 'undefined' ? this.data.options.client : true,
-      compileDebug: this.data.options.development || false,
-      amd: this.data.options.amd || ''
-    };
+    var options = grunt.utils._.extend({
+      client: true,
+      compileDebug: false
+    }, this.data.options);
+
+    var wrapper = grunt.utils._.extend({
+      wrap: true,
+      amd: false,
+      dependencies: ''
+    }, this.data.wrapper);
 
     // Reference to the dest dir
     var dest = path.normalize(this.file.dest + '/')
@@ -36,15 +38,11 @@ module.exports = function(grunt) {
     // Loop through all files and write them to files
     files.forEach(function(filepath) {
       var fileExtname = path.extname(filepath)
+        , src = grunt.file.read(filepath)
         , outputFilename = path.basename(filepath, fileExtname).replace('-', '_')
-        , outputFilepath
-        , compiled;
-      if(options.client){
-        outputFilepath = dest + outputFilename + '.js';
-      } else {
-        outputFilepath = dest + outputFilename + '.html';
-      }
-      compiled = grunt.helper('compile', grunt.file.read(filepath), options, outputFilename, filepath);
+        , outputExtension = options.client ? '.js' : '.html'
+        , outputFilepath = dest + outputFilename + outputExtension
+        , compiled = grunt.helper('compile', src, options, wrapper, outputFilename, filepath);
       grunt.file.write(outputFilepath, compiled);
     });
   });
@@ -53,38 +51,45 @@ module.exports = function(grunt) {
   // HELPERS
   // ==========================================================================
 
-  grunt.registerHelper('compile', function(src, options, filename, extraMsg) {
+  grunt.registerHelper('compile', function(src, options, wrapper, filename, extraMsg) {
     var msg = 'Compiling' + (extraMsg ? ' ' + extraMsg : '') + '...';
     grunt.verbose.write(msg);
     var compiled = jade.compile(src, options);
+    grunt.verbose.ok();
+    var output;
+    // Was compilation successful?
     if(compiled){
+      // Are we writing JS?
       if(options.client){
         compiled = String(compiled);
-        if(options.amd){
-          grunt.verbose.ok();
-          return grunt.helper('wrap-amd', compiled, options.amd, filename);
+        // Are we wrapping it?
+        if(wrapper.wrap){
+          output = grunt.helper('wrap', compiled, wrapper, filename);
         } else {
-          grunt.verbose.ok();
-          return grunt.helper('wrap-no-amd', compiled, filename);
+          output = compiled;
         }
       } else {
-        grunt.verbose.ok();
-        return compiled(options);
+        // Spit out
+        output = compiled(options);
       }
     }
-    return;
+    return output;
   });
 
-  grunt.registerHelper('wrap-no-amd', function(compiled, filename){
-    var header = 'jade.templates.' + filename + ' = (function(){\nreturn '
-      , footer = ';\n})();';
-    return header + compiled + footer;
-  });
-
-  grunt.registerHelper('wrap-amd', function(compiled, amd, filename){
-    var header = 'define(["' + amd + '"], function(jade) {\nreturn '
-      , footer = ';\n});';
-    return header + compiled + footer;
+  grunt.registerHelper('wrap', function(compiled, wrapper, filename){
+    // Generate path for wrapper template
+    var templatePath = '../support/' + (wrapper.amd ? 'amd' : 'no-amd') + '.template';
+    // Read in the correct wrapper template
+    var template = grunt.file.read(templatePath);
+    grunt.verbose.write('Wrapping ' + filename + ' template...');
+    // Compile template with params
+    var wrappedTemplate = grunt.template.process(template, {
+      compiledTemplate: compiled,
+      filename: filename,
+      dependencies: wrapper.dependencies
+    });
+    grunt.verbose.ok();
+    return wrappedTemplate;
   });
 
 };

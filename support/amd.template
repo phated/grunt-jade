@@ -1,0 +1,3 @@
+define(['<%= dependencies %>'], function(jade){
+  return <%= compiledTemplate %>;
+});

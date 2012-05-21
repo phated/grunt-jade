@@ -28,37 +28,6 @@ module.exports = function(grunt) {
         es5: true
       },
       globals: {}
-    },
-    jade: {
-      dev: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/dev',
-        options: {
-          development: true,
-          amd: 'jade'
-        }
-      },
-      no_amd: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/no_amd',
-        options: {
-          development: true
-        }
-      },
-      dist: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/dist/',
-        options: {
-          amd: 'jade'
-        }
-      },
-      html: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/html/',
-        options: {
-          client: false
-        }
-      }
     }
   });
 
