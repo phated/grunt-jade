@@ -1,0 +1,4 @@
+jade = (function(exports){
+  <%= runtime %>
+  return exports;
+})({});

@@ -9,7 +9,8 @@
 module.exports = function(grunt) {
 
   var jade = require('jade')
-    , path = require('path');
+    , path = require('path')
+    , jadeRuntimePath = require.resolve('jade/lib/runtime');
 
   // ==========================================================================
   // TASKS
@@ -45,6 +46,11 @@ module.exports = function(grunt) {
         , compiled = grunt.helper('compile', src, options, wrapper, outputFilename, filepath);
       grunt.file.write(outputFilepath, compiled);
     });
+
+    if(options.client){
+      grunt.helper('runtime', dest, wrapper);
+    }
+
   });
 
   // ==========================================================================
@@ -90,6 +96,22 @@ module.exports = function(grunt) {
     });
     grunt.verbose.ok();
     return wrappedTemplate;
+  });
+
+  grunt.registerHelper('runtime', function(dest, wrapper){
+    // Generate path for wrapper template
+    var templatePath = '../support/' + (wrapper.amd ? 'amd' : 'no-amd') + '-runtime.template';
+    // Read in the correct wrapper template
+    var template = grunt.file.read(templatePath);
+    var runtime = grunt.file.read(jadeRuntimePath);
+    grunt.verbose.write('Wrapping runtime.js...');
+    // Compile template with params
+    var wrappedTemplate = grunt.template.process(template, {
+      runtime: runtime
+    });
+    var filename = wrapper.dependencies ? wrapper.dependencies : 'runtime';
+    grunt.file.write(dest + filename + '.js', wrappedTemplate);
+    return;
   });
 
 };
