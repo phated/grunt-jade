@@ -24,11 +24,5 @@ exports['jade'] = {
   setUp: function(done) {
     // setup here
     done();
-  },
-  'helper': function(test) {
-    test.expect(1);
-    // tests here
-    test.equal(grunt.helper('jade'), 'jade!!!', 'should return the correct value.');
-    test.done();
   }
 };
