@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 
   grunt.registerHelper('wrap', function(compiled, wrapper, filename){
     // Generate path for wrapper template
-    var templatePath = '../support/' + (wrapper.amd ? 'amd' : 'no-amd') + '.template';
+    var templatePath = __dirname + '/../support/' + (wrapper.amd ? 'amd' : 'no-amd') + '.template';
     // Read in the correct wrapper template
     var template = grunt.file.read(templatePath);
     grunt.verbose.write('Wrapping ' + filename + ' template...');
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
 
   grunt.registerHelper('runtime', function(dest, wrapper){
     // Generate path for wrapper template
-    var templatePath = '../support/' + (wrapper.amd ? 'amd' : 'no-amd') + '-runtime.template';
+    var templatePath = __dirname + '/../support/' + (wrapper.amd ? 'amd' : 'no-amd') + '-runtime.template';
     // Read in the correct wrapper template
     var template = grunt.file.read(templatePath);
     var runtime = grunt.file.read(jadeRuntimePath);
