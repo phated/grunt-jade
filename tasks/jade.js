@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     files.forEach(function(filepath) {
       var fileExtname = path.extname(filepath)
         , src = grunt.file.read(filepath)
-        , outputFilename = path.basename(filepath, fileExtname).replace('-', '_')
+        , outputFilename = path.basename(filepath, fileExtname)
         , outputExtension = options.client ? '.js' : '.html'
         , outputFilepath = dest + outputFilename + outputExtension
         , compiled = grunt.helper('compile', src, options, wrapper, outputFilename, filepath);
