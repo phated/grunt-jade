@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/phated/grunt-jade.png)](http://travis-ci.org/phated/grunt-jade)
 # grunt-jade
 
 Compile jade templates with grunt.
