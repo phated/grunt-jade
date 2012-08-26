@@ -65,6 +65,13 @@ module.exports = function(grunt) {
         options: {
           client: false
         }
+      },
+      no_runtime: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/no_runtime/',
+        options: {
+          runtime: false,
+        }
       }
     }
   });
