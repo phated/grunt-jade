@@ -20,6 +20,7 @@ module.exports = function(grunt) {
     // Options object for jade
     var options = grunt.utils._.extend({
       client: true,
+      runtime: true,
       compileDebug: false
     }, this.data.options);
 
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
       grunt.file.write(outputFilepath, compiled);
     });
 
-    if(options.client){
+    if(options.client && options.runtime){
       grunt.helper('runtime', dest, wrapper);
     }
 
