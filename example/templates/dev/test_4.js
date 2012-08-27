@@ -1,5 +1,4 @@
-jade.templates = jade.templates || {};
-jade.templates["test"] = (function(){
+define(['jade'], function(jade){
   return function anonymous(locals, attrs, escape, rethrow) {
 var attrs = jade.attrs, escape = jade.escape, rethrow = jade.rethrow;
 var __jade = [{ lineno: 1, filename: undefined }];
@@ -24,4 +23,4 @@ return buf.join("");
   rethrow(err, __jade[0].filename, __jade[0].lineno);
 }
 };
-})();
+});
