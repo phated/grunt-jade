@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     jade: {
       dev: {
         src: ['templates/src/*.jade'],
-        dest: 'templates/dev',
+        dest: 'templates/dev/',
         options: {
           compileDebug: true
         },
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       },
       no_amd: {
         src: ['templates/src/*.jade'],
-        dest: 'templates/no_amd',
+        dest: 'templates/no_amd/',
         options: {
           compileDebug: true
         },
@@ -44,6 +44,18 @@ module.exports = function(grunt) {
         dest: 'templates/no_runtime/',
         options: {
           runtime: false,
+        }
+      },
+      no_options: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/no_options/'
+      },
+      no_wrap_no_amd: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/no_wrap_no_amd/',
+        wrapper: {
+          amd: false,
+          wrap: false
         }
       }
     }
