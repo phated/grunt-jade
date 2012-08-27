@@ -1,5 +1,5 @@
 jade.templates = jade.templates || {};
-jade.templates["test2"] = (function(){
+jade.templates['test2'] = (function(){
   return function anonymous(locals, attrs, escape, rethrow) {
 var attrs = jade.attrs, escape = jade.escape, rethrow = jade.rethrow;
 var __jade = [{ lineno: 1, filename: undefined }];
