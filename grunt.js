@@ -2,11 +2,19 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    test: {
-      files: ['test/**/*.js']
+    jade: {
+      node: {
+        src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-node/',
+        wrapper: {
+          node: true,
+          dependencies: 'runtime'
+        }
+      }
     },
+    clean: ['tmp/'],
     lint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
+      files: ['grunt.js', 'tasks/**/*.js', '<config:nodeunit.tasks>']
     },
     watch: {
       files: '<config:lint.files>',
@@ -29,11 +37,22 @@ module.exports = function(grunt) {
         laxcomma: true
       },
       globals: {}
+    },
+    nodeunit: {
+      tasks: ['test/**/*_test.js']
     }
   });
 
   // Load local tasks.
   grunt.loadTasks('tasks');
+
+  // The clean plugin helps in testing.
+  grunt.loadNpmTasks('grunt-contrib-clean');
+
+  // Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
+  // plugin's task(s), then test the result.
+  grunt.renameTask('test', 'nodeunit');
+  grunt.registerTask('test', 'clean jade nodeunit');
 
   // Default task.
   grunt.registerTask('default', 'lint test');

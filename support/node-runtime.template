@@ -1,0 +1,3 @@
+(function (exports) {
+	<%= runtime %>
+})(module.exports);
