@@ -42,6 +42,22 @@ jade: {
 }
 ```
 
+For node-style (Modules/1.1?) compilation, add:
+(`dependencies` is what you want the runtime to be named)
+
+```javascript
+jade: {
+  amd: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path',
+    wrapper: {
+      node: true,
+      dependencies: 'runtime'
+    }
+  }
+}
+```
+
 For debug compilation, add:
 
 ```javascript
