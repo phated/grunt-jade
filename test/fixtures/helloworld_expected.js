@@ -1,3 +1,5 @@
+var jade = require('./runtime');
+
 (function (jade) {
 	module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
 attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
@@ -8,4 +10,4 @@ buf.push('<h1>Hello, tester!</h1>');
 }
 return buf.join("");
 };
-})(require('./runtime'));
+})(jade);
