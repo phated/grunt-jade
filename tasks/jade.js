@@ -58,10 +58,12 @@ module.exports = function(grunt) {
   // HELPERS
   // ==========================================================================
 
-  grunt.registerHelper('compile', function(src, options, wrapper, filename, extraMsg) {
-    var msg = 'Compiling' + (extraMsg ? ' ' + extraMsg : '') + '...';
+  grunt.registerHelper('compile', function(src, options, wrapper, filename, filepath) {
+    var msg = 'Compiling' + (filepath ? ' ' + filepath : '') + '...';
     grunt.verbose.write(msg);
-    var compiled = jade.compile(src, options);
+    var compiled = jade.compile(src, grunt.utils._.extend({
+      filename: filepath // required to use includes
+    }, options));
     grunt.verbose.ok();
     var output;
     // Was compilation successful?
