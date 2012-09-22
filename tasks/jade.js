@@ -39,7 +39,6 @@ module.exports = function(grunt) {
 
     // Loop through all files and write them to files
     files.forEach(function(filepath) {
-      options.filename = filepath;
       var fileExtname = path.extname(filepath)
         , src = grunt.file.read(filepath)
         , outputFilename = path.basename(filepath, fileExtname)
