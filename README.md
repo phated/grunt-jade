@@ -47,7 +47,7 @@ For node-style (Modules/1.1?) compilation, add:
 
 ```javascript
 jade: {
-  amd: {
+  node: {
     src: ['path/to/src/*.jade'],
     dest: 'dest/path',
     wrapper: {
