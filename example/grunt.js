@@ -43,7 +43,7 @@ module.exports = function(grunt) {
         src: ['templates/src/*.jade'],
         dest: 'templates/no_runtime/',
         options: {
-          runtime: false,
+          runtime: false
         }
       },
       no_options: {
@@ -56,6 +56,14 @@ module.exports = function(grunt) {
         wrapper: {
           amd: false,
           wrap: false
+        }
+      },
+      node: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/node/',
+        wrapper: {
+          node: true,
+          dependencies: 'runtime'
         }
       }
     }
