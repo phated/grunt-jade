@@ -42,7 +42,7 @@ jade: {
 }
 ```
 
-For node-style (Modules/1.1?) compilation, add:
+For node-style (Modules/1.0) compilation, add:
 (`dependencies` is what you want the runtime to be named)
 
 ```javascript
