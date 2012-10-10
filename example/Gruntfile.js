@@ -1,11 +1,14 @@
+'use strict';
+
 module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
     jade: {
       dev: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/dev/',
+        files: {
+          'templates/dev/': ['templates/src/*.jade']
+        },
         options: {
           compileDebug: true
         },
@@ -15,8 +18,9 @@ module.exports = function(grunt) {
         }
       },
       no_amd: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/no_amd/',
+        files: {
+          'templates/no_amd/': ['templates/src/*.jade']
+        },
         options: {
           compileDebug: true
         },
@@ -25,42 +29,48 @@ module.exports = function(grunt) {
         }
       },
       dist: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/dist/',
+        files: {
+          'templates/dist/': ['templates/src/*.jade']
+        },
         wrapper: {
           amd: true,
           dependencies: 'jade'
         }
       },
       html: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/html/',
+        files: {
+          'templates/html/': ['templates/src/*.jade']
+        },
         options: {
           client: false
         }
       },
       no_runtime: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/no_runtime/',
+        files: {
+          'templates/no_runtime/': ['templates/src/*.jade']
+        },
         options: {
           runtime: false
         }
       },
       no_options: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/no_options/'
+        files: {
+          'templates/no_options/': ['templates/src/*.jade']
+        }
       },
       no_wrap_no_amd: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/no_wrap_no_amd/',
+        files: {
+          'templates/no_wrap_no_amd/': ['templates/src/*.jade']
+        },
         wrapper: {
           amd: false,
           wrap: false
         }
       },
       node: {
-        src: ['templates/src/*.jade'],
-        dest: 'templates/node/',
+        files: {
+          'templates/node/': ['templates/src/*.jade']
+        },
         wrapper: {
           node: true,
           dependencies: 'runtime'
@@ -73,6 +83,6 @@ module.exports = function(grunt) {
   grunt.loadTasks('../tasks');
 
   // Default task.
-  grunt.registerTask('default', 'jade');
+  grunt.registerTask('default', ['jade']);
 
 };

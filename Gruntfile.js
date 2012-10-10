@@ -1,26 +1,27 @@
+'use strict';
+
 module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
     jade: {
       node: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-node/',
+        files: {
+          'tmp/jade-node/': ['test/fixtures/**/*.jade']
+        },
+        options: {},
         wrapper: {
           node: true,
           dependencies: 'runtime'
         }
       }
     },
-    clean: ['tmp/'],
-    lint: {
-      files: ['grunt.js', 'example/grunt.js', 'tasks/**/*.js', '<config:nodeunit.tasks>']
-    },
-    watch: {
-      files: '<config:lint.files>',
-      tasks: 'default'
+    clean: {
+      test: ['tmp/**/'],
+      examples: ['example/templates/**/', '!example/templates/', '!example/templates/src/']
     },
     jshint: {
+      all: ['Gruntfile.js', 'example/Gruntfile.js', 'tasks/**/*.js', '<config:nodeunit.tasks>'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -34,9 +35,14 @@ module.exports = function(grunt) {
         eqnull: true,
         node: true,
         es5: true,
-        laxcomma: true
+        laxcomma: true,
+        globalstrict: true
       },
       globals: {}
+    },
+    watch: {
+      files: '<config:jshint.all>',
+      tasks: 'default'
     },
     nodeunit: {
       tasks: ['test/**/*_test.js']
@@ -46,15 +52,16 @@ module.exports = function(grunt) {
   // Load local tasks.
   grunt.loadTasks('tasks');
 
-  // The clean plugin helps in testing.
+  // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
   // plugin's task(s), then test the result.
-  grunt.renameTask('test', 'nodeunit');
-  grunt.registerTask('test', 'clean jade nodeunit');
+  grunt.registerTask('test', ['clean:test', 'jade', 'nodeunit']);
 
   // Default task.
-  grunt.registerTask('default', 'lint test');
+  grunt.registerTask('default', ['jshint', 'test']);
 
 };
