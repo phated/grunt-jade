@@ -114,6 +114,19 @@ jade: {
 }
 ```
 
+For custom extension, add:
+```javascript
+jade: {
+  custom_extension: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path/',
+    options: {
+      extension: '.xml',
+    }
+  }
+}
+```
+
 ## Defaults
 
 ```javascript
