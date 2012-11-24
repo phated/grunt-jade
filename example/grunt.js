@@ -65,6 +65,14 @@ module.exports = function(grunt) {
           node: true,
           dependencies: 'runtime'
         }
+      },
+      custom_extension: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/custom_extension/',
+        options: {
+          client: false,
+          extension: '.xml'
+        }
       }
     }
   });
