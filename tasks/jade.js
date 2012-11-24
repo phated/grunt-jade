@@ -21,7 +21,8 @@ module.exports = function(grunt) {
     var options = grunt.utils._.extend({
       client: true,
       runtime: true,
-      compileDebug: false
+      compileDebug: false,
+      locals: {},
     }, this.data.options);
 
     var wrapper = grunt.utils._.extend({
@@ -59,29 +60,31 @@ module.exports = function(grunt) {
   // ==========================================================================
 
   grunt.registerHelper('compile', function(src, options, wrapper, filename, filepath) {
+
     var msg = 'Compiling' + (filepath ? ' ' + filepath : '') + '...';
     grunt.verbose.write(msg);
+
     var compiled = jade.compile(src, grunt.utils._.extend({
       filename: filepath // required to use includes
     }, options));
+
     grunt.verbose.ok();
-    var output;
+
     // Was compilation successful?
-    if(compiled){
-      // Are we writing JS?
-      if(options.client){
-        compiled = String(compiled);
-        // Are we wrapping it?
-        if(wrapper.wrap){
-          output = grunt.helper('wrap', compiled, wrapper, filename);
-        } else {
-          output = compiled;
-        }
-      } else {
-        // Spit out
-        output = compiled(options);
-      }
+    if (!compiled) {
+      return;
     }
+
+    var output;
+
+    if (options.client){
+      compiled = String(compiled);
+      output = wrapper.wrap? grunt.helper('wrap', compiled, wrapper, filename) : compiled;
+    } else {
+      var locals = grunt.utils._.isFunction(options.locals)? options.locals() : options.locals;
+      output = compiled(locals);
+    }
+
     return output;
   });
 
