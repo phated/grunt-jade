@@ -7,6 +7,7 @@
  */
 
 module.exports = function(grunt) {
+  'use strict';
 
   var jade = require('jade')
     , path = require('path')
