@@ -133,7 +133,8 @@ jade: {
 options: {
   client: true,
   runtime: true,
-  compileDebug: false
+  compileDebug: false,
+  extension: null
 }
 
 wrapper: {
