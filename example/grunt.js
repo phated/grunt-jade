@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+  'use strict';
 
   // Project configuration.
   grunt.initConfig({
@@ -64,6 +65,14 @@ module.exports = function(grunt) {
         wrapper: {
           node: true,
           dependencies: 'runtime'
+        }
+      },
+      custom_extension: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/custom_extension/',
+        options: {
+          client: false,
+          extension: '.xml'
         }
       }
     }

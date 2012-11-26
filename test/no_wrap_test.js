@@ -20,18 +20,20 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports['jade-node'] = function (test){
+exports['jade-no_wrap'] = function (test){
   'use strict';
+
   test.expect(2);
+
   var actual, expected;
   // Test the runtime output
-  actual = grunt.file.read('tmp/jade-node/runtime.js');
-  expected = grunt.file.read('test/fixtures/runtime_expected.js');
-  test.equal(actual, expected, 'should generate a node module for the runtime');
+  actual = grunt.file.read('tmp/jade-no_wrap/runtime.js');
+  expected = grunt.file.read('test/fixtures/no_wrap/runtime_expected.js');
+  test.equal(actual, expected, 'should generate a global module for the runtime');
   // Test helloworld.jade output
-  actual = grunt.file.read('tmp/jade-node/helloworld.js');
-  expected = grunt.file.read('test/fixtures/helloworld_expected.js');
-  test.equal(actual, expected, 'should generate a node module for the runtime');
+  actual = grunt.file.read('tmp/jade-no_wrap/helloworld.js');
+  expected = grunt.file.read('test/fixtures/no_wrap/helloworld_expected.js');
+  test.equal(actual, expected, 'should generate a non-wrapped module for the template');
 
   test.done();
 };

@@ -7,6 +7,7 @@
  */
 
 module.exports = function(grunt) {
+  'use strict';
 
   var jade = require('jade')
     , path = require('path')
@@ -23,6 +24,7 @@ module.exports = function(grunt) {
       runtime: true,
       compileDebug: false,
       locals: {},
+      extension: null
     }, this.data.options);
 
     var wrapper = grunt.utils._.extend({
@@ -38,12 +40,14 @@ module.exports = function(grunt) {
     // Make the dest dir if it doesn't exist
     grunt.file.mkdir(dest);
 
+    var outputExtension = (options.extension !== null)? options.extension
+                                                      : (options.client? '.js' : '.html');
+
     // Loop through all files and write them to files
     files.forEach(function(filepath) {
       var fileExtname = path.extname(filepath)
         , src = grunt.file.read(filepath)
         , outputFilename = path.basename(filepath, fileExtname)
-        , outputExtension = options.client ? '.js' : '.html'
         , outputFilepath = dest + outputFilename + outputExtension
         , compiled = grunt.helper('compile', src, options, wrapper, outputFilename, filepath);
       grunt.file.write(outputFilepath, compiled);

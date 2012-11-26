@@ -115,6 +115,7 @@ jade: {
 ```
 
 For locals, add:
+
 ```javascript
 jade: {
   locals: {
@@ -129,7 +130,22 @@ jade: {
 }
 ```
 
+For custom extension, add:
+
+```javascript
+jade: {
+  custom_extension: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path/',
+    options: {
+      extension: '.xml',
+    }
+  }
+}
+```
+
 Or alternatively, use a function:
+
 ```javascript
 jade: {
   locals: {
@@ -154,7 +170,8 @@ options: {
   client: true,
   runtime: true,
   compileDebug: false,
-  locals: {}
+  locals: {},
+  extension: null
 }
 
 wrapper: {
