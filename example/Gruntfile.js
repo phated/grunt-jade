@@ -4,6 +4,17 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     jade: {
+      old_style: {
+        src: ['templates/src/*.jade'],
+        dest: 'templates/old_style/',
+        options: {
+          client: true
+        },
+        wrapper: {
+          amd: true,
+          dependencies: 'jade'
+        }
+      },
       dev: {
         files: {
           'templates/dev/': ['templates/src/*.jade']
