@@ -34,10 +34,8 @@
     "grunt-lib-contrib": "~0.4.0"
   },
   "devDependencies": {
-    "grunt-contrib-clean": "devel",
-    "grunt-contrib-jshint": "git://github.com/gruntjs/grunt-contrib-jshint#e40db51008da21bcf292d4cdcda8a6285021513a",
-    "grunt-contrib-nodeunit": "0.1.0",
-    "grunt": "devel"
+    "grunt-contrib-clean": "~0.3.1",
+    "grunt": "~0.3.17"
   },
   "keywords": [
     "gruntplugin"
