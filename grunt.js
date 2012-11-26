@@ -7,9 +7,8 @@ module.exports = function(grunt) {
       node: {
         src: ['test/fixtures/**/*.jade'],
         dest: 'tmp/jade-node/',
-        wrapper: {
-          node: true,
-          dependencies: 'runtime'
+        options: {
+          wrap: 'node'
         }
       }
     },

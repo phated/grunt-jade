@@ -9,124 +9,106 @@
 module.exports = function(grunt) {
   'use strict';
 
-  var jade = require('jade')
-    , path = require('path')
-    , jadeRuntimePath = require.resolve('jade/lib/runtime');
+  var path = require('path');
+  var helpers = require('./lib/helpers').init(grunt);
+  var contrib = require('grunt-lib-contrib').init(grunt);
+  var util = grunt.util || grunt.utils; // For 0.3 and 0.4 compat
+  var _ = util._;
 
   // ==========================================================================
   // TASKS
   // ==========================================================================
 
-  grunt.registerMultiTask('jade', 'Your task description goes here.', function() {
-    // Options object for jade
-    var options = grunt.utils._.extend({
+  grunt.registerMultiTask('jade', 'Compile your Jade templates', function() {
+    /**
+     * Default options that are expected inside the jade task
+     *
+     * @static
+     * @type Object
+     */
+    var defaults = {
+      /**
+       * Passed to jade.compile to determine if jade is returing HTML or JS
+       *
+       * @static
+       * @memberOf defaults
+       * @type Boolean
+       */
       client: true,
       runtime: true,
       compileDebug: false,
-      extension: null
-    }, this.data.options);
+      extension: null,
+      wrap: null
+    };
 
-    var wrapper = grunt.utils._.extend({
-      wrap: true,
-      amd: false,
-      dependencies: ''
-    }, this.data.wrapper);
+    var wrappers = {
+      amd: {
+        wrap: true,
+        amd: true,
+        node: false,
+        dependencies: 'runtime'
+      },
+      global: {
+        wrap: true,
+        amd: false,
+        node: false,
+        dependencies: null
+      },
+      node: {
+        wrap: true,
+        amd: false,
+        node: true,
+        dependencies: 'runtime'
+      },
+      none: {
+        wrap: false,
+        amd: false,
+        node: false,
+        dependencies: null
+      }
+    };
 
-    // Reference to the dest dir
-    var dest = path.normalize(this.file.dest + '/')
-      , files = grunt.file.expandFiles(this.file.src);
-
-    // Make the dest dir if it doesn't exist
-    grunt.file.mkdir(dest);
+    // Options object for jade
+    var options = this.options ? this.options(defaults) : _.extend(defaults, this.data.options);
+    // Wrapper options for templates (Default to global since that is jade's client defaults)
+    var wrapperKey = _.isString(options.wrap) ? options.wrap : 'global';
+    var wrapper;
+    if(_.isObject(options.wrap)){
+      wrapper = options.wrap;
+    } else {
+      wrapper = this.data.wrapper || {};
+    }
+    wrapper = _.extend(wrappers[wrapperKey], wrapper);
 
     var outputExtension = (options.extension !== null)? options.extension
                                                       : (options.client? '.js' : '.html');
 
+    this.files = this.files || contrib.normalizeMultiTaskFiles(this.data, this.target); // For 0.3 and 0.4 compat
+
     // Loop through all files and write them to files
-    files.forEach(function(filepath) {
-      var fileExtname = path.extname(filepath)
-        , src = grunt.file.read(filepath)
-        , outputFilename = path.basename(filepath, fileExtname)
-        , outputFilepath = dest + outputFilename + outputExtension
-        , compiled = grunt.helper('compile', src, options, wrapper, outputFilename, filepath);
-      grunt.file.write(outputFilepath, compiled);
-    });
+    this.files.forEach(function(fileObj) {
+      // Reference to the dest dir
+      var dest = path.normalize(fileObj.dest + '/');
+      // Make the dest dir if it doesn't exist
+      grunt.file.mkdir(dest);
 
-    if(options.client && options.runtime){
-      grunt.helper('runtime', dest, wrapper);
-    }
+      var files = grunt.file.expandFiles(fileObj.src);
 
-  });
+      files.forEach(function(filepath){
+        console.log(filepath);
+        var fileExtname = path.extname(filepath);
+        var src = grunt.file.read(filepath);
+        var outputFilename = path.basename(filepath, fileExtname);
+        var outputFilepath = dest + outputFilename + outputExtension;
+        var compiled = helpers.compile(src, options, wrapper, outputFilename, filepath);
+        grunt.file.write(outputFilepath, compiled);
+      });
 
-  // ==========================================================================
-  // HELPERS
-  // ==========================================================================
-
-  grunt.registerHelper('compile', function(src, options, wrapper, filename, filepath) {
-    var msg = 'Compiling' + (filepath ? ' ' + filepath : '') + '...';
-    grunt.verbose.write(msg);
-    var compiled = jade.compile(src, grunt.utils._.extend({
-      filename: filepath // required to use includes
-    }, options));
-    grunt.verbose.ok();
-    var output;
-    // Was compilation successful?
-    if(compiled){
-      // Are we writing JS?
-      if(options.client){
-        compiled = String(compiled);
-        // Are we wrapping it?
-        if(wrapper.wrap){
-          output = grunt.helper('wrap', compiled, wrapper, filename);
-        } else {
-          output = compiled;
-        }
-      } else {
-        // Spit out
-        output = compiled(options);
+      if(options.client && options.runtime){
+        helpers.runtime(dest, wrapper);
       }
-    }
-    return output;
-  });
-
-  grunt.registerHelper('wrap', function(compiled, wrapper, filename){
-    // Generate path for wrapper template
-    var templateFilename =
-        wrapper.amd ? 'amd'
-      : wrapper.node ? 'node'
-      : 'jade-global';
-    var templatePath = __dirname + '/../support/' + templateFilename + '.template';
-    // Read in the correct wrapper template
-    var template = grunt.file.read(templatePath);
-    grunt.verbose.write('Wrapping ' + filename + ' template...');
-    // Compile template with params
-    var wrappedTemplate = grunt.template.process(template, {
-      compiledTemplate: compiled,
-      filename: filename,
-      dependencies: wrapper.dependencies
     });
-    grunt.verbose.ok();
-    return wrappedTemplate;
-  });
 
-  grunt.registerHelper('runtime', function(dest, wrapper){
-    // Generate path for wrapper template
-    var templateFilename =
-        wrapper.amd ? 'amd'
-      : wrapper.node ? 'node'
-      : 'jade-global';
-    var templatePath = __dirname + '/../support/' + templateFilename + '-runtime.template';
-    // Read in the correct wrapper template
-    var template = grunt.file.read(templatePath);
-    var runtime = grunt.file.read(jadeRuntimePath);
-    grunt.verbose.write('Wrapping runtime.js...');
-    // Compile template with params
-    var wrappedTemplate = grunt.template.process(template, {
-      runtime: runtime
-    });
-    var filename = wrapper.dependencies ? wrapper.dependencies : 'runtime';
-    grunt.file.write(dest + filename + '.js', wrappedTemplate);
-    return;
   });
 
 };
