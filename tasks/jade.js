@@ -38,7 +38,8 @@ module.exports = function(grunt) {
       runtime: true,
       compileDebug: false,
       extension: null,
-      wrap: null
+      wrap: null,
+      locals: null
     };
 
     var wrappers = {

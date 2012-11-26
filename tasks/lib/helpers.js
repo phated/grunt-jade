@@ -18,23 +18,27 @@ exports.init = function(grunt) {
       filename: filepath // required to use includes
     }, options));
     grunt.verbose.ok();
-    var output;
+
     // Was compilation successful?
-    if(compiled){
-      // Are we writing JS?
-      if(options.client){
-        compiled = String(compiled);
-        // Are we wrapping it?
-        if(wrapper.wrap){
-          output = exports.wrap(compiled, wrapper, filename);
-        } else {
-          output = compiled;
-        }
-      } else {
-        // Spit out
-        output = compiled(options);
-      }
+    if (!compiled) {
+      return;
     }
+
+    var output;
+
+    if (options.client){
+      compiled = String(compiled);
+      output = wrapper.wrap ? exports.wrap(compiled, wrapper, filename) : compiled;
+    } else {
+      var locals;
+      if(options.locals){
+        locals = grunt.utils._.isFunction(options.locals)? options.locals() : options.locals;
+      } else {
+        locals = options;
+      }
+      output = compiled(locals);
+    }
+
     return output;
   };
 

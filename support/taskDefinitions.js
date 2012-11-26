@@ -50,6 +50,26 @@ module.exports = {
       extension: '.xml'
     }
   },
+  old_locals: {
+    src: ['example/templates/*.jade'],
+    dest: 'example/output/locals/',
+    options: {
+      client: false,
+      locals: {
+        title: 'Welcome to my website!'
+      }
+    }
+  },
+  old_locals_function: {
+    src: ['example/templates/*.jade'],
+    dest: 'example/output/locals/',
+    options: {
+      client: false,
+      locals: function() {
+          return {compiledAt: new Date()};
+      }
+    }
+  },
   example_amd_debug: {
     files: {
       'example/output/amd_debug/': ['example/templates/*.jade']
@@ -87,7 +107,8 @@ module.exports = {
       'example/output/html/': ['example/templates/*.jade']
     },
     options: {
-      client: false
+      client: false,
+      title: 'Passed from the options object (no locals used)'
     }
   },
   example_no_runtime: {

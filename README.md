@@ -114,7 +114,42 @@ jade: {
 }
 ```
 
+For locals, add:
+
+```javascript
+jade: {
+  locals: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path/',
+    options: {
+      client: false,
+      locals: {
+        title: 'Welcome to my website!'
+      }
+    }
+  }
+}
+```
+
+Or alternatively, use a function:
+
+```javascript
+jade: {
+  locals: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path/',
+    options: {
+      client: false,
+      locals: function() {
+          return {compiledAt: new Date()};
+      }
+    }
+  }
+}
+```
+
 For custom extension, add:
+
 ```javascript
 jade: {
   custom_extension: {
@@ -126,6 +161,9 @@ jade: {
   }
 }
 ```
+This is useful when you are also using the watch task, since the function will
+be called on each reload.
+
 
 ## Defaults
 
@@ -134,6 +172,7 @@ options: {
   client: true,
   runtime: true,
   compileDebug: false,
+  locals: {},
   extension: null
 }
 
