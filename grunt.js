@@ -11,6 +11,50 @@ module.exports = function(grunt) {
           node: true,
           dependencies: 'runtime'
         }
+      },
+      amd: {
+        src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-amd/',
+        wrapper: {
+          amd: true,
+          dependencies: 'runtime'
+        }
+      },
+      debug: {
+        src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-debug/',
+        options: {
+          compileDebug: true
+        }
+      },
+      html: {
+        src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-html/',
+        options: {
+          client: false
+        }
+      },
+      no_wrap: {
+         src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-no_wrap/',
+        wrapper: {
+          wrap: false
+        }
+      },
+      no_runtime: {
+        src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-no_runtime/',
+        options: {
+          runtime: false
+        }
+      },
+      custom_extension: {
+        src: ['test/fixtures/**/*.jade'],
+        dest: 'tmp/jade-custom_extension/',
+        options: {
+          client: false,
+          extension: '.xml'
+        }
       }
     },
     clean: ['tmp/'],
