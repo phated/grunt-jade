@@ -30,12 +30,14 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "~0.3.9",
-    "grunt-contrib-clean": "0.2.x",
-    "jade": "~0.26.0"
+    "jade": "~0.26.3",
+    "grunt-lib-contrib": "~0.4.0"
   },
   "devDependencies": {
-    "grunt": "~0.3.9"
+    "grunt-contrib-clean": "devel",
+    "grunt-contrib-jshint": "git://github.com/gruntjs/grunt-contrib-jshint#e40db51008da21bcf292d4cdcda8a6285021513a",
+    "grunt-contrib-nodeunit": "0.1.0",
+    "grunt": "devel"
   },
   "keywords": [
     "gruntplugin"
