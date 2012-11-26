@@ -147,6 +147,8 @@ jade: {
   }
 }
 ```
+This is useful when you are also using the watch task, since the function will
+be called on each reload.
 
 For custom extension, add:
 
@@ -161,9 +163,6 @@ jade: {
   }
 }
 ```
-This is useful when you are also using the watch task, since the function will
-be called on each reload.
-
 
 ## Defaults
 
