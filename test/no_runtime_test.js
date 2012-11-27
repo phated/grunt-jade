@@ -27,14 +27,23 @@ var existsSync = fs.existsSync || path.existsSync;
 exports['jade-no_runtime'] = function (test){
   'use strict';
 
-  test.expect(2);
+  test.expect(4);
 
   var actual, expected, runtimeExists;
-  // Test there is no runtime output
-  runtimeExists = existsSync('tmp/jade-html/runtime.html') || existsSync('tmp/jade-html/runtime.js');
+  // OLD - Test there is no runtime output
+  runtimeExists = existsSync('tmp/old/jade-html/runtime.html') || existsSync('tmp/old/jade-html/runtime.js');
   test.equal(runtimeExists, false, 'should NOT generate a module for the runtime');
-  // Test helloworld.jade output
-  actual = grunt.file.read('tmp/jade-no_runtime/helloworld.js');
+  // OLD - Test helloworld.jade output
+  actual = grunt.file.read('tmp/old/jade-no_runtime/helloworld.js');
+  expected = grunt.file.read('test/fixtures/no_runtime/helloworld_expected.js');
+  test.equal(actual, expected, 'should generate an HTML file for the template');
+
+
+  // NEW - Test there is no runtime output
+  runtimeExists = existsSync('tmp/new/jade-html/runtime.html') || existsSync('tmp/new/jade-html/runtime.js');
+  test.equal(runtimeExists, false, 'should NOT generate a module for the runtime');
+  // NEW - Test helloworld.jade output
+  actual = grunt.file.read('tmp/new/jade-no_runtime/helloworld.js');
   expected = grunt.file.read('test/fixtures/no_runtime/helloworld_expected.js');
   test.equal(actual, expected, 'should generate an HTML file for the template');
 

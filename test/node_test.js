@@ -23,15 +23,25 @@ var grunt = require('grunt');
 exports['jade-node'] = function (test){
   'use strict';
 
-  test.expect(2);
+  test.expect(4);
 
   var actual, expected;
-  // Test the runtime output
-  actual = grunt.file.read('tmp/jade-node/runtime.js');
+  // OLD - Test the runtime output
+  actual = grunt.file.read('tmp/old/jade-node/runtime.js');
   expected = grunt.file.read('test/fixtures/node/runtime_expected.js');
   test.equal(actual, expected, 'should generate a node module for the runtime');
-  // Test helloworld.jade output
-  actual = grunt.file.read('tmp/jade-node/helloworld.js');
+  // OLD - Test helloworld.jade output
+  actual = grunt.file.read('tmp/old/jade-node/helloworld.js');
+  expected = grunt.file.read('test/fixtures/node/helloworld_expected.js');
+  test.equal(actual, expected, 'should generate a node module for the template');
+
+
+  // NEW - Test the runtime output
+  actual = grunt.file.read('tmp/new/jade-node/runtime.js');
+  expected = grunt.file.read('test/fixtures/node/runtime_expected.js');
+  test.equal(actual, expected, 'should generate a node module for the runtime');
+  // NEW - Test helloworld.jade output
+  actual = grunt.file.read('tmp/new/jade-node/helloworld.js');
   expected = grunt.file.read('test/fixtures/node/helloworld_expected.js');
   test.equal(actual, expected, 'should generate a node module for the template');
 

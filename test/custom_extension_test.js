@@ -27,14 +27,23 @@ var existsSync = fs.existsSync || path.existsSync;
 exports['jade-custom_extension'] = function (test){
   'use strict';
 
-  test.expect(2);
+  test.expect(4);
 
   var actual, expected, runtimeExists;
-  // Test there is no runtime output
-  runtimeExists = existsSync('tmp/jade-custom_extension/runtime.xml') || existsSync('tmp/jade-html/runtime.js');
+  // OLD - Test there is no runtime output
+  runtimeExists = existsSync('tmp/old/jade-custom_extension/runtime.xml') || existsSync('tmp/old/jade-html/runtime.js');
   test.equal(runtimeExists, false, 'should NOT generate a module for the runtime');
-  // Test helloworld.jade output
-  actual = grunt.file.read('tmp/jade-custom_extension/helloworld.xml');
+  // OLD - Test helloworld.jade output
+  actual = grunt.file.read('tmp/old/jade-custom_extension/helloworld.xml');
+  expected = grunt.file.read('test/fixtures/custom_extension/helloworld_expected.xml');
+  test.equal(actual, expected, 'should generate an XML file for the template');
+
+
+  // NEW - Test there is no runtime output
+  runtimeExists = existsSync('tmp/new/jade-custom_extension/runtime.xml') || existsSync('tmp/new/jade-html/runtime.js');
+  test.equal(runtimeExists, false, 'should NOT generate a module for the runtime');
+  // NEW - Test helloworld.jade output
+  actual = grunt.file.read('tmp/new/jade-custom_extension/helloworld.xml');
   expected = grunt.file.read('test/fixtures/custom_extension/helloworld_expected.xml');
   test.equal(actual, expected, 'should generate an XML file for the template');
 
