@@ -1,7 +1,7 @@
 {
   "name": "grunt-jade",
   "description": "Compile jade templates with grunt.",
-  "version": "0.4.0a",
+  "version": "0.4.0rc4",
   "homepage": "https://github.com/phated/grunt-jade",
   "author": {
     "name": "Blaine Bublitz",
@@ -33,10 +33,10 @@
     "jade": "~0.27.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "0.1.0",
-    "grunt-contrib-nodeunit": "0.1.0",
+    "grunt-contrib-jshint": "0.1.1",
+    "grunt-contrib-nodeunit": "0.1.2",
     "grunt-contrib-clean": "0.4.0a",
-    "grunt": "~0.4.0a"
+    "grunt": "~0.4.0rc4"
   },
   "keywords": [
     "gruntplugin"
