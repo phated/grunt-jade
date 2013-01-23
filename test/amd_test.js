@@ -23,15 +23,25 @@ var grunt = require('grunt');
 exports['jade-amd'] = function (test){
   'use strict';
 
-  test.expect(2);
+  test.expect(4);
 
   var actual, expected;
-  // Test the runtime output
-  actual = grunt.file.read('tmp/jade-amd/runtime.js');
+  // OLD - Test the runtime output
+  actual = grunt.file.read('tmp/old/jade-amd/runtime.js');
   expected = grunt.file.read('test/fixtures/amd/runtime_expected.js');
   test.equal(actual, expected, 'should generate an AMD module for the runtime');
-  // Test helloworld.jade output
-  actual = grunt.file.read('tmp/jade-amd/helloworld.js');
+  // OLD - Test helloworld.jade output
+  actual = grunt.file.read('tmp/old/jade-amd/helloworld.js');
+  expected = grunt.file.read('test/fixtures/amd/helloworld_expected.js');
+  test.equal(actual, expected, 'should generate an AMD module for the template');
+
+
+  // NEW - Test the runtime output
+  actual = grunt.file.read('tmp/new/jade-amd/runtime.js');
+  expected = grunt.file.read('test/fixtures/amd/runtime_expected.js');
+  test.equal(actual, expected, 'should generate an AMD module for the runtime');
+  // NEW - Test helloworld.jade output
+  actual = grunt.file.read('tmp/new/jade-amd/helloworld.js');
   expected = grunt.file.read('test/fixtures/amd/helloworld_expected.js');
   test.equal(actual, expected, 'should generate an AMD module for the template');
 

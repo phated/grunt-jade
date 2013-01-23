@@ -23,15 +23,25 @@ var grunt = require('grunt');
 exports['jade-debug'] = function (test){
   'use strict';
 
-  test.expect(2);
+  test.expect(4);
 
   var actual, expected;
-  // Test the runtime output
-  actual = grunt.file.read('tmp/jade-debug/runtime.js');
+  // OLD - Test the runtime output
+  actual = grunt.file.read('tmp/old/jade-debug/runtime.js');
   expected = grunt.file.read('test/fixtures/debug/runtime_expected.js');
   test.equal(actual, expected, 'should generate a global module for the runtime');
-  // Test helloworld.jade output
-  actual = grunt.file.read('tmp/jade-debug/helloworld.js');
+  // OLD - Test helloworld.jade output
+  actual = grunt.file.read('tmp/old/jade-debug/helloworld.js');
+  expected = grunt.file.read('test/fixtures/debug/helloworld_expected.js');
+  test.equal(actual, expected, 'should generate a global module (with debug) for the template');
+
+
+  // NEW - Test the runtime output
+  actual = grunt.file.read('tmp/new/jade-debug/runtime.js');
+  expected = grunt.file.read('test/fixtures/debug/runtime_expected.js');
+  test.equal(actual, expected, 'should generate a global module for the runtime');
+  // NEW - Test helloworld.jade output
+  actual = grunt.file.read('tmp/new/jade-debug/helloworld.js');
   expected = grunt.file.read('test/fixtures/debug/helloworld_expected.js');
   test.equal(actual, expected, 'should generate a global module (with debug) for the template');
 

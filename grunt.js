@@ -3,61 +3,9 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    jade: {
-      node: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-node/',
-        wrapper: {
-          node: true,
-          dependencies: 'runtime'
-        }
-      },
-      amd: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-amd/',
-        wrapper: {
-          amd: true,
-          dependencies: 'runtime'
-        }
-      },
-      debug: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-debug/',
-        options: {
-          compileDebug: true
-        }
-      },
-      html: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-html/',
-        options: {
-          client: false
-        }
-      },
-      no_wrap: {
-         src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-no_wrap/',
-        wrapper: {
-          wrap: false
-        }
-      },
-      no_runtime: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-no_runtime/',
-        options: {
-          runtime: false
-        }
-      },
-      custom_extension: {
-        src: ['test/fixtures/**/*.jade'],
-        dest: 'tmp/jade-custom_extension/',
-        options: {
-          client: false,
-          extension: '.xml'
-        }
-      }
-    },
-    clean: ['tmp/'],
+    // These definitions are getting very large so I moved them to another file
+    jade: require('./support/taskDefinitions'),
+    clean: ['tmp/', 'example/output/'],
     lint: {
       files: ['grunt.js', 'example/grunt.js', 'tasks/**/*.js', '<config:nodeunit.tasks>']
     },

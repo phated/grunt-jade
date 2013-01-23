@@ -100,6 +100,21 @@ jade: {
 }
 ```
 
+To keep directory structure, use basePath:
+
+```javascript
+jade: {
+  base_path: {
+    files: {
+      'dest/path/': ['path/to/src/*.jade'],
+    },
+    options: {
+      basePath: 'path/to/'
+    }
+  }
+}
+```
+
 For no runtime file, add:
 
 ```javascript
@@ -114,7 +129,44 @@ jade: {
 }
 ```
 
+For locals, add:
+
+```javascript
+jade: {
+  locals: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path/',
+    options: {
+      client: false,
+      locals: {
+        title: 'Welcome to my website!'
+      }
+    }
+  }
+}
+```
+
+Or alternatively, use a function:
+
+```javascript
+jade: {
+  locals: {
+    src: ['path/to/src/*.jade'],
+    dest: 'dest/path/',
+    options: {
+      client: false,
+      locals: function() {
+          return {compiledAt: new Date()};
+      }
+    }
+  }
+}
+```
+This is useful when you are also using the watch task, since the function will
+be called on each reload.
+
 For custom extension, add:
+
 ```javascript
 jade: {
   custom_extension: {
@@ -134,7 +186,9 @@ options: {
   client: true,
   runtime: true,
   compileDebug: false,
-  extension: null
+  locals: {},
+  extension: null,
+  basePath: null
 }
 
 wrapper: {
