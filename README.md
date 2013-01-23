@@ -100,6 +100,21 @@ jade: {
 }
 ```
 
+To keep directory structure, use basePath:
+
+```javascript
+jade: {
+  base_path: {
+    files: {
+      'dest/path/': ['path/to/src/*.jade'],
+    },
+    options: {
+      basePath: 'path/to/'
+    }
+  }
+}
+```
+
 For no runtime file, add:
 
 ```javascript
@@ -172,7 +187,8 @@ options: {
   runtime: true,
   compileDebug: false,
   locals: {},
-  extension: null
+  extension: null,
+  basePath: null
 }
 
 wrapper: {

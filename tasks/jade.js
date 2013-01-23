@@ -39,7 +39,8 @@ module.exports = function(grunt) {
       compileDebug: false,
       extension: null,
       wrap: null,
-      locals: null
+      locals: null,
+      basePath: null
     };
 
     var wrappers = {
@@ -100,7 +101,8 @@ module.exports = function(grunt) {
         var fileExtname = path.extname(filepath);
         var src = grunt.file.read(filepath);
         var outputFilename = path.basename(filepath, fileExtname);
-        var outputFilepath = dest + outputFilename + outputExtension;
+        var outputDirectory = options.basePath ? path.dirname(path.relative(options.basePath, filepath)) + '/' : '';
+        var outputFilepath = dest + outputDirectory + outputFilename + outputExtension;
         var compiled = helpers.compile(src, options, wrapper, outputFilename, filepath);
         grunt.file.write(outputFilepath, compiled);
       });

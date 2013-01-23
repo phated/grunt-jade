@@ -1,9 +1,25 @@
 module.exports = {
+  base_path_test: {
+    files: {
+      'tmp/new/jade-base_path': ['test/fixtures/helloworld.jade']
+    },
+    options: {
+      basePath: 'test/'
+    }
+  },
+  base_path: {
+    files: {
+      'example/output/base_path': ['example/templates/**/*.jade']
+    },
+    options: {
+      basePath: 'example/templates'
+    }
+  },
   // NEW Tests and Examples
   no_options: {
     files: {
       'tmp/new/jade-no_options/': ['test/fixtures/helloworld.jade'],
-      'example/output/no_options/': ['example/templates/*.jade']
+      'example/output/no_options/': ['example/templates/**/*.jade']
     }
   },
   global: {
