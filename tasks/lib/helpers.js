@@ -14,10 +14,17 @@ exports.init = function(grunt) {
   exports.compile = function(src, options, wrapper, filename, filepath) {
     var msg = 'Compiling' + (filepath ? ' ' + filepath : '') + '...';
     grunt.verbose.write(msg);
-    var compiled = jade.compile(src, _.extend({
-      filename: filepath // required to use includes
-    }, options));
-    grunt.verbose.ok();
+    
+    var compiled;
+    try {
+      compiled = jade.compile(src, _.extend({
+        filename: filepath // required to use includes
+      }, options));
+      grunt.verbose.ok();
+    } catch (ex) {
+      grunt.log.error(ex.toString());
+      return;
+    }
 
     // Was compilation successful?
     if (!compiled) {
