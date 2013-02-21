@@ -94,7 +94,7 @@ module.exports = function(grunt) {
       // Make the dest dir if it doesn't exist
       grunt.file.mkdir(dest);
 
-      var files = grunt.file.expandFiles(fileObj.src);
+      var files = grunt.file.expand({nonull: true}, fileObj.src);
 
       files.forEach(function(filepath){
         console.log(filepath);
