@@ -2,6 +2,12 @@
 
 Compile jade templates with grunt.
 
+## Notices
+
+This plugin requires Grunt `~0.4.0`
+
+If you are looking for the version of this that works in Grunt `~0.3.0`, use version `0.3.9`
+
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-jade`
 
