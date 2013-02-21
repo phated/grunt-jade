@@ -2,7 +2,7 @@
  * grunt-jade
  * https://github.com/phated/grunt-jade
  *
- * Copyright (c) 2012 Blaine Bublitz
+ * Copyright (c) 2013 Blaine Bublitz
  * Licensed under the MIT license.
  */
 
