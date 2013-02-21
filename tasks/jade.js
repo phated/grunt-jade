@@ -11,9 +11,7 @@ module.exports = function(grunt) {
 
   var path = require('path');
   var helpers = require('./lib/helpers').init(grunt);
-  var contrib = require('grunt-lib-contrib').init(grunt);
-  var util = grunt.util || grunt.utils; // For 0.3 and 0.4 compat
-  var _ = util._;
+  var _ = grunt.util._;
 
   // ==========================================================================
   // TASKS
@@ -71,7 +69,7 @@ module.exports = function(grunt) {
     };
 
     // Options object for jade
-    var options = this.options ? this.options(defaults) : _.extend(defaults, this.data.options);
+    var options = this.options(defaults);
     // Wrapper options for templates (Default to global since that is jade's client defaults)
     var wrapperKey = _.isString(options.wrap) ? options.wrap : 'global';
     var wrapper;
@@ -84,9 +82,6 @@ module.exports = function(grunt) {
 
     var outputExtension = (options.extension !== null)? options.extension
                                                       : (options.client? '.js' : '.html');
-
-    this.files = this.files || contrib.normalizeMultiTaskFiles(this.data, this.target); // For 0.3 and 0.4 compat
-
     // Loop through all files and write them to files
     this.files.forEach(function(fileObj) {
       // Reference to the dest dir

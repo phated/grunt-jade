@@ -24,18 +24,23 @@
   "main": "grunt.js",
   "bin": "bin/grunt-jade",
   "engines": {
-    "node": "*"
+    "node": ">= 0.8.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "jade": "~0.26.3",
-    "grunt-lib-contrib": "~0.4.0"
+    "jade": "~0.28.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
   },
   "devDependencies": {
-    "grunt-contrib-clean": "~0.3.1",
-    "grunt": "~0.3.17"
+    "grunt": "~0.4.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2"
   },
   "keywords": [
     "gruntplugin"

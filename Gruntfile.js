@@ -6,14 +6,12 @@ module.exports = function(grunt) {
     // These definitions are getting very large so I moved them to another file
     jade: require('./support/taskDefinitions'),
     clean: ['tmp/', 'example/output/'],
-    lint: {
-      files: ['grunt.js', 'example/grunt.js', 'tasks/**/*.js', '<config:nodeunit.tasks>']
-    },
     watch: {
       files: '<config:lint.files>',
       tasks: 'default'
     },
     jshint: {
+      all: ['grunt.js', 'example/grunt.js', 'tasks/**/*.js', '<config:nodeunit.tasks>'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -27,9 +25,9 @@ module.exports = function(grunt) {
         eqnull: true,
         node: true,
         es5: true,
-        laxcomma: true
-      },
-      globals: {}
+        laxcomma: true,
+        globals: {}
+      }
     },
     nodeunit: {
       tasks: ['test/**/*_test.js']
@@ -41,13 +39,15 @@ module.exports = function(grunt) {
 
   // The clean plugin helps in testing.
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // Whenever the 'test' task is run, first clean the 'tmp' dir, then run this
   // plugin's task(s), then test the result.
-  grunt.renameTask('test', 'nodeunit');
-  grunt.registerTask('test', 'clean jade nodeunit');
+  grunt.registerTask('test', ['clean', 'jade', 'nodeunit']);
 
   // Default task.
-  grunt.registerTask('default', 'lint test');
+  grunt.registerTask('default', ['jshint', 'test']);
 
 };

@@ -5,17 +5,16 @@ exports.init = function(grunt) {
   var jade = require('jade');
   var jadeRuntimePath = require.resolve('jade/lib/runtime');
 
-  // For 0.3 to 0.4
-  var util = grunt.util || grunt.utils;
-  var _ = util._;
+  var _ = grunt.util._;
 
   var exports = {};
 
   exports.compile = function(src, options, wrapper, filename, filepath) {
     var msg = 'Compiling' + (filepath ? ' ' + filepath : '') + '...';
     grunt.verbose.write(msg);
-    
+
     var compiled;
+    // Catch and log error if compilation fails
     try {
       compiled = jade.compile(src, _.extend({
         filename: filepath // required to use includes
@@ -23,11 +22,6 @@ exports.init = function(grunt) {
       grunt.verbose.ok();
     } catch (ex) {
       grunt.log.error(ex.toString());
-      return;
-    }
-
-    // Was compilation successful?
-    if (!compiled) {
       return;
     }
 
@@ -39,7 +33,7 @@ exports.init = function(grunt) {
     } else {
       var locals;
       if(options.locals){
-        locals = grunt.utils._.isFunction(options.locals)? options.locals() : options.locals;
+        locals = _.isFunction(options.locals) ? options.locals() : options.locals;
       } else {
         locals = options;
       }
@@ -60,16 +54,13 @@ exports.init = function(grunt) {
     var template = grunt.file.read(templatePath);
     grunt.verbose.write('Wrapping ' + filename + ' template...');
 
-    // Pass in the template data directly on options (for 0.3)
-    // Pass in the template data as data property on options (for 0.4)
-    var templateData = {
-      compiledTemplate: compiled,
-      filename: filename,
-      dependencies: wrapper.dependencies
+    var templateOptions = {
+      data: {
+        filename: filename,
+        compiledTemplate: compiled,
+        dependencies: wrapper.dependencies
+      }
     };
-    var templateOptions = _.extend(templateData, {
-      data: _.clone(templateData) // TODO: Do we need to do _.clone here or is a circular ref fine??
-    });
 
     // Compile template with params
     var wrappedTemplate = grunt.template.process(template, templateOptions);
@@ -89,14 +80,11 @@ exports.init = function(grunt) {
     var runtime = grunt.file.read(jadeRuntimePath);
     grunt.verbose.write('Wrapping runtime.js...');
 
-    // Pass in the template data directly on options (for 0.3)
-    // Pass in the template data as data property on options (for 0.4)
-    var templateData = {
-      runtime: runtime
+    var templateOptions = {
+      data: {
+        runtime: runtime
+      }
     };
-    var templateOptions = _.extend(templateData, {
-      data: _.clone(templateData) // TODO: Do we need to do _.clone here or is a circular ref fine??
-    });
 
     // Compile template with params
     var wrappedTemplate = grunt.template.process(template, templateOptions);
