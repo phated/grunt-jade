@@ -7,10 +7,69 @@ exports.init = function(grunt) {
 
   var _ = grunt.util._;
 
+  var wrapperDefaults = {
+    amd: {
+      wrap: true,
+      amd: true,
+      node: false,
+      dependencies: 'runtime'
+    },
+    global: {
+      wrap: true,
+      amd: false,
+      node: false,
+      dependencies: null
+    },
+    node: {
+      wrap: true,
+      amd: false,
+      node: true,
+      dependencies: './runtime'
+    },
+    none: {
+      wrap: false,
+      amd: false,
+      node: false,
+      dependencies: null
+    }
+  };
+
   var exports = {};
 
-  exports.compile = function(src, options, wrapper, filename, filepath) {
+  exports.templateFilename = function(wrapper){
+    if(wrapper.amd){
+      return 'amd';
+    }
+
+    if(wrapper.node){
+      return 'node';
+    }
+
+    return 'global';
+  };
+
+  exports.wrapper = function(wrap){
+    // Return wrapper options for templates (Default to global since that is jade's client defaults)
+    if(_.isString(wrap) && wrap in wrapperDefaults){
+      return wrapperDefaults[wrap];
+    }
+
+    if(_.isObject(wrap)){
+      return _.defaults(wrap, wrapperDefaults.global);
+    }
+
+    if(_.isBoolean(wrap)){
+      return wrap ? wrapperDefaults.global : wrapperDefaults.none;
+    }
+
+    return wrapperDefaults.global;
+  };
+
+  exports.compile = function(filepath, options, wrapper, filename) {
     var msg = 'Compiling' + (filepath ? ' ' + filepath : '') + '...';
+
+    var src = grunt.file.read(filepath);
+
     grunt.verbose.write(msg);
 
     var compiled;
@@ -31,12 +90,7 @@ exports.init = function(grunt) {
       compiled = String(compiled);
       output = wrapper.wrap ? exports.wrap(compiled, wrapper, filename) : compiled;
     } else {
-      var locals;
-      if(options.locals){
-        locals = _.isFunction(options.locals) ? options.locals() : options.locals;
-      } else {
-        locals = options;
-      }
+      var locals = _.isFunction(options.locals) ? options.locals() : options.locals;
       output = compiled(locals);
     }
 
@@ -44,12 +98,7 @@ exports.init = function(grunt) {
   };
 
   exports.wrap = function(compiled, wrapper, filename){
-    // Generate path for wrapper template
-    var templateFilename =
-        wrapper.amd ? 'amd'
-      : wrapper.node ? 'node'
-      : 'jade-global';
-    var templatePath = __dirname + '/../../support/' + templateFilename + '.template';
+    var templatePath = __dirname + '/../../support/' + exports.templateFilename(wrapper) + '.template';
     // Read in the correct wrapper template
     var template = grunt.file.read(templatePath);
     grunt.verbose.write('Wrapping ' + filename + ' template...');
@@ -69,14 +118,10 @@ exports.init = function(grunt) {
   };
 
   exports.runtime = function(dest, wrapper){
-    // Generate path for wrapper template
-    var templateFilename =
-        wrapper.amd ? 'amd'
-      : wrapper.node ? 'node'
-      : 'jade-global';
-    var templatePath = __dirname + '/../../support/' + templateFilename + '-runtime.template';
+    var templatePath = __dirname + '/../../support/' + exports.templateFilename(wrapper) + '-runtime.template';
     // Read in the correct wrapper template
     var template = grunt.file.read(templatePath);
+
     var runtime = grunt.file.read(jadeRuntimePath);
     grunt.verbose.write('Wrapping runtime.js...');
 

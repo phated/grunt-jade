@@ -92,7 +92,10 @@ module.exports = {
     },
     options: {
       client: false,
-      title: 'Passed from the options object (no locals used)'
+      locals: {
+        // TODO: change this message
+        title: 'Passed from the options object (no locals used)'
+      }
     }
   },
   html_options: {
