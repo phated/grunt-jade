@@ -36,7 +36,7 @@ exports['jade-no_runtime'] = function (test){
   // OLD - Test helloworld.jade output
   actual = grunt.file.read('tmp/old/jade-no_runtime/helloworld.js');
   expected = grunt.file.read('test/fixtures/no_runtime/helloworld_expected.js');
-  test.equal(actual, expected, 'should generate an HTML file for the template');
+  test.equal(actual, expected, 'should generate a global wrapped file for the template');
 
 
   // NEW - Test there is no runtime output
@@ -45,7 +45,7 @@ exports['jade-no_runtime'] = function (test){
   // NEW - Test helloworld.jade output
   actual = grunt.file.read('tmp/new/jade-no_runtime/helloworld.js');
   expected = grunt.file.read('test/fixtures/no_runtime/helloworld_expected.js');
-  test.equal(actual, expected, 'should generate an HTML file for the template');
+  test.equal(actual, expected, 'should generate a global wrapped file for the template');
 
   test.done();
 };
