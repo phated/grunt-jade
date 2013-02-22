@@ -5,32 +5,29 @@ module.exports = function(grunt) {
   grunt.initConfig({
     // These definitions are getting very large so I moved them to another file
     jade: require('./support/taskDefinitions'),
-    clean: ['tmp/', 'example/output/'],
+    clean: [
+      'tmp/',
+      'example/output/'
+    ],
     watch: {
-      files: '<config:lint.files>',
+      files: '<%= jshint.all %>',
       tasks: 'default'
     },
     jshint: {
-      all: ['grunt.js', 'example/grunt.js', 'tasks/**/*.js', '<config:nodeunit.tasks>'],
+      all: [
+        'grunt.js',
+        'example/grunt.js',
+        'tasks/**/*.js',
+        '<%= nodeunit.tasks %>'
+      ],
       options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        node: true,
-        es5: true,
-        laxcomma: true,
-        globals: {}
+        jshintrc: '.jshintrc'
       }
     },
     nodeunit: {
-      tasks: ['test/**/*_test.js']
+      tasks: [
+        'test/**/*_test.js'
+      ]
     }
   });
 
