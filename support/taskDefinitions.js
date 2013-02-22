@@ -1,4 +1,9 @@
 module.exports = {
+
+  options: {
+    extra_data: 'Welcome to my website!'
+  },
+
   base_path_test: {
     files: {
       'tmp/new/jade-base_path': ['test/fixtures/helloworld.jade']
@@ -133,6 +138,18 @@ module.exports = {
       }
     }
   },
+  locals_template: {
+    files: {
+      'tmp/new/jade-locals_template/': ['test/fixtures/variable.jade'],
+      'example/output/locals_template/': ['example/templates/*.jade']
+    },
+    options: {
+      client: false,
+      locals: {
+        title: '<%= jade.options.extra_data %>'
+      }
+    }
+  },
   locals_function: {
     files: {
       'tmp/new/jade-locals_function/': ['test/fixtures/variable.jade'],
@@ -155,10 +172,8 @@ module.exports = {
   old_global: {
     src: ['test/fixtures/helloworld.jade'],
     dest: 'tmp/old/jade-global/',
-    wrapper: {
-      wrap: true,
-      amd: false,
-      node: false
+    options: {
+      wrap: 'global'
     }
   },
   old_node: {
@@ -171,30 +186,26 @@ module.exports = {
   old_amd: {
     src: ['test/fixtures/helloworld.jade'],
     dest: 'tmp/old/jade-amd/',
-    wrapper: {
-      amd: true,
-      dependencies: 'runtime'
+    options: {
+      wrap: 'amd'
     }
   },
   old_amd_deps: {
     src: ['test/fixtures/helloworld.jade'],
     dest: 'tmp/old/jade-amd_deps/',
-    wrapper: {
-      wrap: true,
-      amd: true,
-      dependencies: 'jade'
+    options: {
+      wrap: {
+        amd: true,
+        dependencies: 'jade'
+      },
     }
   },
   old_amd_debug: {
     src: ['test/fixtures/helloworld.jade'],
     dest: 'tmp/old/jade-amd_debug/',
     options: {
-      compileDebug: true
-    },
-    wrapper: {
-      wrap: true,
-      amd: true,
-      dependencies: 'runtime'
+      compileDebug: true,
+      wrap: 'amd'
     }
   },
   old_debug: {
@@ -214,8 +225,8 @@ module.exports = {
   old_no_wrap: {
     src: ['test/fixtures/helloworld.jade'],
     dest: 'tmp/old/jade-no_wrap/',
-    wrapper: {
-      wrap: false
+    options: {
+      wrap: 'none'
     }
   },
   old_no_runtime: {
@@ -240,6 +251,16 @@ module.exports = {
       client: false,
       locals: {
         title: 'Welcome to my website!'
+      }
+    }
+  },
+  old_locals_template: {
+    src: ['test/fixtures/variable.jade'],
+    dest: 'tmp/old/jade-locals_template/',
+    options: {
+      client: false,
+      locals: {
+        title: '<%= jade.options.extra_data %>'
       }
     }
   },
