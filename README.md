@@ -26,8 +26,9 @@ To your [grunt.js gruntfile][getting_started], add:
 ```javascript
 jade: {
   no_options: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path'
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    }
   }
 }
 ```
@@ -38,11 +39,11 @@ For AMD compilation, add:
 ```javascript
 jade: {
   amd: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path',
-    wrapper: {
-      amd: true,
-      dependencies: 'jade'
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
+    options: {
+      wrap: 'amd'
     }
   }
 }
@@ -54,11 +55,11 @@ For node-style (Modules/1.0) compilation, add:
 ```javascript
 jade: {
   node: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path',
-    wrapper: {
-      node: true,
-      dependencies: 'runtime'
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
+    options: {
+      wrap: 'node'
     }
   }
 }
@@ -69,8 +70,9 @@ For debug compilation, add:
 ```javascript
 jade: {
   debug: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path',
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
     options: {
       compileDebug: true
     }
@@ -83,8 +85,9 @@ For HTML compilation (instead of JS), add:
 ```javascript
 jade: {
   html: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path',
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
     options: {
       client: false
     }
@@ -97,10 +100,11 @@ For unwrapped functions, add:
 ```javascript
 jade: {
   unwrapped: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path/',
-    wrapper: {
-      wrap: false
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
+    options: {
+      wrap: false // or 'none'
     }
   }
 }
@@ -126,10 +130,11 @@ For no runtime file, add:
 ```javascript
 jade: {
   no_runtime: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path/',
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
     options: {
-      runtime: false,
+      runtime: false
     }
   }
 }
@@ -140,8 +145,9 @@ For locals, add:
 ```javascript
 jade: {
   locals: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path/',
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
     options: {
       client: false,
       locals: {
@@ -157,8 +163,9 @@ Or alternatively, use a function:
 ```javascript
 jade: {
   locals: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path/',
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
     options: {
       client: false,
       locals: function() {
@@ -176,8 +183,9 @@ For custom extension, add:
 ```javascript
 jade: {
   custom_extension: {
-    src: ['path/to/src/*.jade'],
-    dest: 'dest/path/',
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
     options: {
       extension: '.xml',
     }
@@ -187,21 +195,93 @@ jade: {
 
 ## Defaults
 
+__Options Defaults__
+
 ```javascript
 options: {
   client: true,
   runtime: true,
   compileDebug: false,
-  locals: {},
   extension: null,
+  wrap: null,
+  locals: null,
   basePath: null
 }
+```
 
-wrapper: {
+__Wrap Defaults__
+
+```javascript
+wrap: {
   wrap: true,
   amd: false,
-  dependencies: ''
+  node: false,
+  dependencies: null
 }
+```
+
+__Wrap Shorthand__
+
+Strings can be passed to `options.wrap` as a quick config
+
+```javascript
+wrap: 'amd'
+// Shorthand for:
+// wrap: {
+//   wrap: true,
+//   amd: true,
+//   node: false,
+//   dependencies: 'runtime'
+// }
+
+wrap: 'global'
+// Shorthand for: default wrapper
+// wrap: {
+//   wrap: true,
+//   amd: false,
+//   node: false,
+//   dependencies: null
+// }
+
+wrap: 'node'
+// Shorthand for:
+// wrap: {
+//   wrap: true,
+//   amd: false,
+//   node: true,
+//   dependencies: 'runtime'
+// }
+
+wrap: 'none'
+// Shorthand for:
+// wrap: {
+//   wrap: false,
+//   amd: false,
+//   node: false,
+//   dependencies: null
+// }
+```
+
+Booleans can be passed to `options.wrap` as a quick config, too
+
+```javascript
+wrap: true
+// Shorthand for: 'global' or default wrapper
+// wrap: {
+//   wrap: true,
+//   amd: false,
+//   node: false,
+//   dependencies: null
+// }
+
+wrap: false
+// Shorthand for: 'none'
+// wrap: {
+//   wrap: false,
+//   amd: false,
+//   node: false,
+//   dependencies: null
+// }
 ```
 
 ## Contributing
