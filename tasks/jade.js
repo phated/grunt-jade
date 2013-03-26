@@ -58,7 +58,7 @@ module.exports = function(grunt) {
         wrap: true,
         amd: false,
         node: true,
-        dependencies: 'runtime'
+        dependencies: './runtime'
       },
       none: {
         wrap: false,

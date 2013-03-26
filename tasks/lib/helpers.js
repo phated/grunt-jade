@@ -57,7 +57,7 @@ exports.init = function(grunt) {
     var templateOptions = {
       data: {
         filename: filename,
-        compiledTemplate: compiled,
+        compiledTemplate: compiled.replace(/^function anonymous/, 'function '),
         dependencies: wrapper.dependencies
       }
     };

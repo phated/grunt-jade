@@ -249,7 +249,7 @@ wrap: 'node'
 //   wrap: true,
 //   amd: false,
 //   node: true,
-//   dependencies: 'runtime'
+//   dependencies: './runtime'
 // }
 
 wrap: 'none'
