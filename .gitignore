@@ -2,3 +2,4 @@ node_modules/
 *.log
 tmp/
 .idea/
+example/output/
