@@ -80,7 +80,7 @@ exports.init = function(grunt) {
       }, options));
       grunt.verbose.ok();
     } catch (ex) {
-      grunt.log.error(ex.toString());
+      grunt.fail.warn(ex);
       return;
     }
 
