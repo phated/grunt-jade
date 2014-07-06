@@ -1,7 +1,7 @@
 {
   "name": "grunt-jade",
   "description": "Compile jade templates with grunt.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "homepage": "https://github.com/phated/grunt-jade",
   "author": {
     "name": "Blaine Bublitz",
