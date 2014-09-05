@@ -65,6 +65,21 @@ jade: {
 }
 ```
 
+For pretty-indentation whitespace, add
+
+```javascript
+jade: {
+  pretty: {
+    files: {
+      'dest/path/': ['path/to/src/*.jade']
+    },
+    options: {
+      pretty: true
+    }
+  }
+}
+```
+
 For debug compilation, add:
 
 ```javascript
@@ -201,6 +216,7 @@ __Options Defaults__
 options: {
   client: true,
   runtime: true,
+  pretty: false,
   compileDebug: false,
   extension: null,
   wrap: null,
