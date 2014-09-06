@@ -21,6 +21,7 @@ module.exports = function(grunt) {
     var defaults = {
       client: true,
       runtime: true,
+      pretty: false,
       compileDebug: false,
       extension: null,
       wrap: null,
